@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flight of the Magpie — The Chattering Magpie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E4;
+    --paper:#FBF8F0;
+    --ink:#2B2418;
+    --ink-soft:#5B5240;
+    --pine:#2F4A3D;
+    --pine-dark:#213730;
+    --sage:#A7BE95;
+    --sage-light:#DCE6D0;
+    --gold:#C79A2B;
+    --rust:#A85C32;
+    --line: rgba(43,36,24,0.14);
+    --radius: 14px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    padding: 28px 16px 60px;
+    line-height:1.5;
+  }
+  .app{
+    width:100%;
+    max-width: 560px;
+  }
+  header.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom: 22px;
+  }
+  header.brand svg{ flex:none; }
+  .brand-text{ line-height:1.15; }
+  .brand-eyebrow{
+    font-size: 12.5px;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+  }
+  .brand-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size: 19px;
+    color: var(--pine-dark);
+  }
+
+  .card{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 24px 24px;
+    box-shadow: 0 1px 0 rgba(43,36,24,0.03);
+  }
+
+  .intro{ margin-bottom: 22px; }
+  .intro-kicker{
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  .intro-headline{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(23px, 6vw, 29px);
+    color: var(--rust);
+    line-height: 1.18;
+    margin: 0 0 14px;
+  }
+  .intro-body{
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0 0 14px;
+  }
+  .intro-body strong{ color: var(--pine-dark); }
+  .intro-callout{
+    background: var(--sage-light);
+    border-left: 4px solid var(--pine);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--pine-dark);
+    margin: 0 0 14px;
+  }
+  .intro-tagline{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  .intro-tags{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 22px;
+  }
+  .intro-tags-row{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    gap: 7px;
+  }
+  .intro-tags .tag{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--pine-dark);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+
+  /* progress trail */
+  .trail{
+    position:relative;
+    height: 22px;
+    margin-bottom: 22px;
+  }
+  .trail-track{
+    position:absolute;
+    top: 9px; left:0; right:0;
+    height: 4px;
+    background: var(--sage-light);
+    border-radius: 4px;
+    overflow:hidden;
+  }
+  .trail-fill{
+    height:100%;
+    background: var(--pine);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+  .trail-bird{
+    position:absolute;
+    top: -3px;
+    transform: translateX(-50%);
+    font-size: 18px;
+    transition: left 0.4s ease;
+  }
+  .q-counter{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .bonus-badge{
+    display:inline-block;
+    font-size: 12px;
+    font-weight:700;
+    color: var(--pine-dark);
+    background: var(--sage-light);
+    border-radius: 999px;
+    padding: 5px 12px;
+    margin-bottom: 12px;
+  }
+  .q-text{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size: clamp(18px, 4.6vw, 21px);
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .opt{
+    text-align:left;
+    font-family:'Karla', sans-serif;
+    font-size: 15.5px;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor:pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+  }
+  .opt:hover{ border-color: var(--sage); }
+  .opt.selected{
+    background: var(--sage-light);
+    border-color: var(--pine);
+    font-weight:600;
+  }
+  .opt:active{ transform: scale(0.995); }
+
+  .nav-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap: 12px;
+  }
+  .btn{
+    font-family:'Karla', sans-serif;
+    font-weight:700;
+    font-size: 14.5px;
+    padding: 11px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor:pointer;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+  }
+  .btn:active{ transform: scale(0.98); }
+  .btn-primary{
+    background: var(--pine);
+    color: var(--paper);
+  }
+  .btn-primary:disabled{
+    opacity: 0.35;
+    cursor:not-allowed;
+  }
+  .btn-ghost{
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 11px 8px;
+  }
+  .btn-ghost:disabled{ opacity: 0.3; cursor:not-allowed; }
+
+  /* results screen */
+  #results-screen{ display:none; text-align:center; }
+  .tier-emoji{ font-size: 52px; line-height:1; margin-bottom: 6px; }
+  .tier-eyebrow{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .tier-title{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size: clamp(26px, 7vw, 34px);
+    color: var(--pine-dark);
+    margin: 0 0 10px;
+  }
+  .tier-score{
+    display:inline-block;
+    background: var(--sage-light);
+    color: var(--pine-dark);
+    font-weight:700;
+    font-size: 14px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .tier-blurb{
+    font-size: 15.5px;
+    color: var(--ink);
+    max-width: 420px;
+    margin: 0 auto 22px;
+  }
+
+  .fact-box{
+    background: var(--cream);
+    border: 1px dashed var(--sage);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align:left;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .fact-box strong{ color: var(--pine-dark); }
+
+  .share-label{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .share-row{
+    display:flex;
+    gap: 10px;
+    justify-content:center;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .share-btn{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-family:'Karla', sans-serif;
+    font-weight:600;
+    font-size: 13.5px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    cursor:pointer;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .share-btn:hover{ border-color: var(--pine); }
+  .share-btn:active{ transform: scale(0.97); }
+  .share-btn.copied{
+    background: var(--sage-light);
+    border-color: var(--pine);
+  }
+  .ig-note{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+
+  .retake{
+    font-size: 13.5px;
+    color: var(--pine-dark);
+    background:none;
+    border:none;
+    text-decoration: underline;
+    cursor:pointer;
+    padding: 6px;
+  }
+
+  .config-note{
+    margin-top: 18px;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="brand">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 6c-3.2 0-5.6 2.1-6.6 4.8-1.7-.6-3.6-.2-4.9 1.1 1.6.3 2.7 1.1 3.3 2-2.3.6-4 2.6-4.3 5 1.5-.9 3-1.1 4.2-.8-.6 1.6-.4 3.4.6 4.9 3 4.4 8.9 5.4 13.1 2.2 3.4-2.6 4.6-7.1 3-11-1.2-3-4-5.4-8.4-8.2z" fill="#2F4A3D"/>
+      <circle cx="21.5" cy="13.5" r="1.1" fill="#F6F1E4"/>
+    </svg>
+    <div class="brand-text">
+      <div class="brand-eyebrow">The Chattering Magpie · Roost Ruckus</div>
+      <div class="brand-title">Flight of the Magpie</div>
+    </div>
+  </header>
+
+  <div class="card">
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-screen">
+      <div class="intro">
+        <p class="intro-kicker">Think you know your TRCC history?</p>
+        <h1 class="intro-headline">Put Your TRCC and Camp Knowledge to the Test!</h1>
+        <p class="intro-body">Take our <strong>"Flight of the Magpie"</strong> trivia quiz to see how much you know about TRCC and its affiliated programs! At the end, you'll find out what stage of the <strong>Flight Path</strong> you're on.</p>
+        <div class="intro-callout">🪶 Think you have what it takes to earn full Chattering Magpie status?</div>
+        <p class="intro-body">Take the quiz as many times as you like — can you discover all <strong>FIVE</strong> stages of the Flight Path? Then show it off!</p>
+        <p class="intro-tagline">Let's get talking, you guys — it's all about staying connected! Make sure to tag us:</p>
+        <div class="intro-tags">
+          <div class="intro-tags-row">
+            <span class="tag">#TCMTrivia</span>
+            <span class="tag">#FlightoftheMagpie</span>
+          </div>
+          <div class="intro-tags-row">
+            <span class="tag">#RoostRuckus</span>
+            <span class="tag">#TRCCFlock</span>
+            <span class="tag">#TheChatteringMagpie</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="trail">
+        <div class="trail-track"><div class="trail-fill" id="trail-fill"></div></div>
+        <div class="trail-bird" id="trail-bird">🐦</div>
+      </div>
+
+      <div class="q-counter" id="q-counter">Question 1 of 15</div>
+      <div class="bonus-badge" id="bonus-badge" style="display:none;">🎁 Bonus round — just for fun, doesn't affect your score</div>
+      <p class="q-text" id="q-text"></p>
+      <div class="options" id="options"></div>
+
+      <div class="nav-row">
+        <button class="btn btn-ghost" id="back-btn">Back</button>
+        <button class="btn btn-primary" id="next-btn" disabled>Next</button>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="results-screen">
+      <div class="tier-emoji" id="tier-emoji"></div>
+      <div class="tier-eyebrow">Your result</div>
+      <h2 class="tier-title" id="tier-title"></h2>
+      <div class="tier-score" id="tier-score"></div>
+      <p class="tier-blurb" id="tier-blurb"></p>
+
+      <div class="fact-box" id="fact-box"><strong>🪶 Flock Fact:</strong> <span id="fact-text"></span></div>
+
+      <div class="share-label">Share your result</div>
+      <div class="share-row">
+        <button class="share-btn" id="share-fb">📘 Facebook</button>
+        <button class="share-btn" id="share-image">🖼️ Download image</button>
+        <button class="share-btn" id="share-copy">📋 Copy caption</button>
+      </div>
+      <div class="ig-note">Instagram doesn't support one-click sharing from a webpage. Tap Download image to save your result card, then post it to your Story or feed with the copied caption.</div>
+
+      <button class="retake" id="retake-btn">Take it again</button>
+    </div>
+
+    <div class="config-note" id="config-note"></div>
+  </div>
+</div>
+
+<canvas id="share-canvas" width="1080" height="1080" style="display:none;"></canvas>
+
+<script>
+// ---------------------------------------------------------------
+// CONFIG — edit these two lines once this is hosted somewhere real
+// ---------------------------------------------------------------
+const SITE_URL = "https://trccamps.github.io/TCMTrivia_FlightoftheMagpie/";
+const HASHTAGS = "TCMTrivia,RoostRuckus,TRCCFlock,TheChatteringMagpie,FlightoftheMagpie";
+
+// ---------------------------------------------------------------
+// QUESTIONS
+// NOTE: two answers below are marked NEEDS CONFIRM — the source
+// newsletters didn't state them explicitly. Search for "NEEDS CONFIRM"
+// and set the correct index before this goes live.
+// ---------------------------------------------------------------
+const QUESTIONS = [
+  {
+    q: "What year was Traditional Roots Community Camps (TRCC) founded as a registered non-profit 501(c)(3)?",
+    options: ["2019","2022","2023","2024","2025"],
+    correct: 2
+  },
+  {
+    q: "Who were the founders of the original Walker Family Band Camp (now Bluebird Family Fiddle Camp)?",
+    options: ["Blowing Rock Conference Center","Landon and Penny Walker (Scott and Landon's parents)","Scott Walker and Teresja Poole","The Walker Family Band","Leprechauns"],
+    correct: 2
+  },
+  {
+    q: "What year did the foundational Walker Family Band Camp begin?",
+    options: ["1999","2000","2001","2002","2003"],
+    correct: 3
+  },
+  {
+    q: "Bluebird Family Fiddle Camp 2027 will mark what exciting milestone (along its evolutionary journey from the WFB Camp to now)?",
+    options: ["10th anniversary","15th anniversary","20th anniversary","25th anniversary","30th anniversary"],
+    correct: 3
+  },
+  {
+    q: "Which venue has been WFB Camp / BFF Camp's home since the very beginning?",
+    options: ["Blowing Rock Conference Center","Wekiwa Springs State Park","Haw River State Park","Cates Corner Farm","Neptune Beach Senior Center"],
+    correct: 0
+  },
+  {
+    q: "Which music program was formerly known as the \"Florida Fiddle Fest\" before receiving it's TRCC bird-themed rebrand?",
+    options: ["Sparrow Winter Workshop","Chickadee Fiddle Workshop","Sandpiper Music Fest","Early Bird Music Workshop","Lark and Robin Rollick"],
+    correct: 2
+  },
+  {
+    q: "Which music program already had a bird-themed name BEFORE becoming a sponsored program of TRCC? (Fun Fact: it was this program's name that inspired us to build upon 'Birds' as a way of linking our unique and growing music community together.)",
+    options: ["Lark and Robin Rollick","Chickadee Fiddle Workshop","Sandpiper Music Fest","Early Bird Music Workshop","Sparrow Winter Workshop"],
+    correct: 4
+  },
+  {
+    q: "Which TRCC workshop launched in Asheville this year (March 2026), founded and directed by Jennie Brunner?",
+    options: ["Lark and Robin Rollick","Chickadee Fiddle Workshop","Sandpiper Music Fest","Early Bird Music Workshop","Sparrow Winter Workshop"],
+    correct: 1
+  },
+  {
+    q: "This was also the pilot year for TRCC's Early Bird Classical & World Music Workshop. What discount do Early Bird participants receive on their Bluebird camp registrations, if they choose to participate in both programs that same year?",
+    options: ["$25 discount","$50 discount","$75 discount","$100 discount","No discount"],
+    correct: 1
+  },
+  {
+    q: "Who is the founder and director of TRCC's newest music program, the Lark and Robin Rollick (coming to Hillsborough, NC in November!)?",
+    options: ["Dr. Aisha Ivey","Linda Minke","Jennie Brunner","Rebecca Buchanan","Lydia Netzer"],
+    correct: 3
+  },
+  {
+    q: "Who is the President of the TRCC Board of Directors?",
+    options: ["Teresja Poole","Galen Kirkpatrick","Scott Walker","Dr. Angel Cleary","Doug Thomas"],
+    correct: 1
+  },
+  {
+    q: "Who is/are the staff that make up TRCC's Executive Admin Team?",
+    options: ["Teresja Poole","Meghan Parrish","Theo Jordan","All of the above","A and B only"],
+    correct: 3
+  },
+  {
+    q: "What firm is conducting TRCC's financial and governance evaluation in 2026?",
+    options: ["Devan Consulting","Piedmont Consulting","Blue Ridge Nonprofit Partners","The Bird Bros Financial Group","TRCC's Internal Review Board"],
+    correct: 0
+  },
+  {
+    q: "What is the name of TRCC's free, digital, bi-monthly newsletter?",
+    options: ["Tune & Talon Times (T3)","Perch & Pluck Press (P3)","The Bird Bulletin (TBB)","The Roost Report (TRR)","The Chattering Magpie (TCM)"],
+    correct: 4
+  },
+  {
+    q: "What tune won our TCM 2026 TRCC Community Playlist poll?",
+    options: ["Sailor's Hornpipe","Julia Delaney","Angeline the Baker","Devil's Dream","Sean Ryan's"],
+    correct: 1
+  },
+  {
+    q: "Which person has NOT been featured for a FACULTY/STAFF spotlight (...yet)?",
+    options: ["Scott Walker","Dr. Angel Cleary","Jennie Brunner","Ruth Pershing","Rebecca Buchanan"],
+    correct: 1 // Dr. Angel Cleary — based on issues 3-6; reconfirm if a spotlight ran elsewhere
+  },
+  {
+    q: "Which person has NOT been featured for a CAMPER spotlight (...yet)?",
+    options: ["Jordan Scruggs","Joey Hawthorne","Ella Kavanaugh","Claire Brunner","Theo Jordan"],
+    correct: 2 // Ella Kavanaugh — based on issues 3-6; reconfirm if a spotlight ran elsewhere
+  },
+  {
+    q: "BONUS CHALLENGE (this one's just for laughs — it will NOT affect your score or Magpie result): Our newsletter team has never met a bird pun it could resist. If you had to bet, which single issue of TCM crammed in the highest total mentions of bird(s), bluebird(s), sparrow(s), chickadee(s), sandpiper(s), lark(s), robin(s), roost, flock/flocking, wing(s), feather(s), magpie, and chatter/chattering? Place your bet! Your dignity is not on the line here (...ours might be.)",
+    options: ["Issue 3","Issue 4","Issue 5","Issue 6","Y'all are cuckoo! There's no way I'm counting through all that roost ruckus! ;P"],
+    correct: 1, // Issue 4 (March 2026) — 43 total mentions, see word-count breakdown
+    bonus: true
+  }
+];
+
+// ---------------------------------------------------------------
+// TIERS — the "Flight Path": 5 real bird life-stages, matching
+// your 17 SCORED questions (bonus question excluded from scoring)
+// ---------------------------------------------------------------
+const TIERS = [
+  { min:0, max:3, emoji:"🥚", title:"Hatchling", blurb:"Fresh out of the shell and just cracking into TRCC lore. Welcome to the flock — there's a whole nest of camp history waiting for you." },
+  { min:4, max:7, emoji:"🐣", title:"Nestling", blurb:"Still snug in the nest, but you're growing fast. A few more issues of the Magpie and you'll be ready to test those wings." },
+  { min:8, max:11, emoji:"🐤", title:"Fledgling", blurb:"You've left the nest and you're finding your wings — steady, curious, and clearly paying attention when the flock gathers." },
+  { min:12, max:14, emoji:"🐦", title:"Magpie Mentor", blurb:"You know enough to guide the newer birds in the flock — sharp, dependable, and basically unofficial TRCC staff at this point." },
+  { min:15, max:17, emoji:"🪶", title:"Official Magpie", blurb:"You've earned your feathers and then some! Chattering, clever, supportive -- you're officially inducted! Welcome to the Chattering Magpie flock!" }
+];
+
+const FLOCK_FACTS = [
+  "It was Sparrow Winter Workshop's already-bird-y name that first inspired TRCC to build a whole flock of bird-themed camps.",
+  "Bluebird Family Fiddle Camp started life in 2002 as the Walker Family Band Camp — it's been growing wings ever since.",
+  "Ruth Pershing has been calling Bluebird's all-camp dance since 2014.",
+  "Julia Delaney won the 2026 TRCC Community Playlist poll by DOUBLE the votes of the runner-up tune.",
+  "Early Bird Music Workshop campers get a $50 discount on Bluebird — the earliest of early-bird deals.",
+  "Chickadee Fiddle Workshop (launched in March 2026 by Jennie Brunner) was TRCC's newest program before Lark and Robin Rollick came along.",
+  "BFF Camp's \"Roots & Shoots\" class borrows its name from Jane Goodall's global youth environmental movement. This class was introduced into the fiddle curriculum by Jennie Brunner and her daughter Claire, and empowers youth (and those of all ages) by blending the arts and conservation values, greatly expanding upon the Bluebird mission.",
+  "Bluebird's silent nature walks pair beautifully with a week of music — turns out listening to birdsong is its own kind of ear training.",
+  "Located in the scenic Blue Ridge Mountains, the Blowing Rock Conference Center (BRCC) is steeped in natural beauty and regional tradition. BRCC has hosted TRCC's Bluebird Family Fiddle Camp for almost 25 years...since our very first camp!",
+  "In addition to multi-instrumental, multi-generational music classes, TRCC's Bluebird camp offers lots of activities and programs for family members who don't play an instrument! Singing, dances, daily nature walks/hikes, yoga, campfires, arts classes like watercolor, poetry, and origami, history of traditional music and dance, live music, and more! And the town of Blowing Rock is a resort area with lots to do and plenty of excursions awaiting just minutes off campus! It's a week full of music, learning, community, and fun for the whole family!",
+  "Have you heard about the Bluebird Family Fiddle Camp's 'Service Day'? Every year, the Bluebird Camp partners with the BRCC staff to organize a service project that gives back to our host facility, its grounds, staff, and the serene nature that surrounds it. Faculty, staff, and campers take a break from morning classes, and volunteers work together on projects like creating gardens, clearing walking trails, or assisting with eco-friendly management solutions for the grounds, such as building bat houses to help manage mosquitoes or implementing water collection and recycling systems. Building community through gratitude and stewardship is a large part of the BFF Camp's mission."
+];
+
+// ---------------------------------------------------------------
+// STATE + LOGIC
+// ---------------------------------------------------------------
+let current = 0;
+const answers = new Array(QUESTIONS.length).fill(null);
+
+const quizScreen = document.getElementById('quiz-screen');
+const resultsScreen = document.getElementById('results-screen');
+const qCounter = document.getElementById('q-counter');
+const qText = document.getElementById('q-text');
+const optionsEl = document.getElementById('options');
+const backBtn = document.getElementById('back-btn');
+const nextBtn = document.getElementById('next-btn');
+const trailFill = document.getElementById('trail-fill');
+const trailBird = document.getElementById('trail-bird');
+
+function renderQuestion(){
+  const total = QUESTIONS.length;
+  const item = QUESTIONS[current];
+  qCounter.textContent = `Question ${current+1} of ${total}`;
+  document.getElementById('bonus-badge').style.display = item.bonus ? 'inline-block' : 'none';
+  qText.textContent = item.q;
+  optionsEl.innerHTML = '';
+
+  item.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[current] === i ? ' selected' : '');
+    b.textContent = opt;
+    b.addEventListener('click', () => selectOption(i));
+    optionsEl.appendChild(b);
+  });
+
+  backBtn.disabled = current === 0;
+  nextBtn.textContent = current === total - 1 ? 'See my result' : 'Next';
+  nextBtn.disabled = answers[current] === null;
+
+  const pct = (current / (total-1)) * 100;
+  trailFill.style.width = pct + '%';
+  trailBird.style.left = pct + '%';
+}
+
+function selectOption(i){
+  answers[current] = i;
+  renderQuestion();
+}
+
+backBtn.addEventListener('click', () => {
+  if (current > 0){ current--; renderQuestion(); }
+});
+
+nextBtn.addEventListener('click', () => {
+  if (answers[current] === null) return;
+  if (current < QUESTIONS.length - 1){
+    current++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+});
+
+const SCORABLE = QUESTIONS.filter(q => !q.bonus);
+
+function computeScore(){
+  let score = 0;
+  QUESTIONS.forEach((q,i) => { if (!q.bonus && answers[i] === q.correct) score++; });
+  return score;
+}
+
+function tierFor(score){
+  return TIERS.find(t => score >= t.min && score <= t.max) || TIERS[0];
+}
+
+let shareText = "";
+let currentTier = null;
+
+function showResults(){
+  const score = computeScore();
+  const tier = tierFor(score);
+  currentTier = tier;
+  const total = SCORABLE.length;
+
+  document.getElementById('tier-emoji').textContent = tier.emoji;
+  document.getElementById('tier-title').textContent = tier.title;
+  document.getElementById('tier-score').textContent = `${score} / ${total} correct`;
+  document.getElementById('tier-blurb').textContent = tier.blurb;
+
+  const fact = FLOCK_FACTS[Math.floor(Math.random() * FLOCK_FACTS.length)];
+  document.getElementById('fact-text').textContent = fact;
+  currentTier.currentFact = fact;
+
+  shareText = `I'm a ${tier.title}! Test your own TRCC knowledge with TCM's "Flight of the Magpie" trivia quiz! Have you learned enough to become an Official Magpie?`;
+
+  quizScreen.style.display = 'none';
+  resultsScreen.style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('retake-btn').addEventListener('click', () => {
+  current = 0;
+  answers.fill(null);
+  resultsScreen.style.display = 'none';
+  quizScreen.style.display = 'block';
+  renderQuestion();
+});
+
+document.getElementById('share-fb').addEventListener('click', () => {
+  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITE_URL)}&quote=${encodeURIComponent(shareText)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+});
+
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight){
+  const words = text.split(' ');
+  let line = '';
+  let curY = y;
+  for (let i = 0; i < words.length; i++){
+    const testLine = line + words[i] + ' ';
+    if (ctx.measureText(testLine).width > maxWidth && i > 0){
+      ctx.fillText(line.trim(), x, curY);
+      line = words[i] + ' ';
+      curY += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line.trim(), x, curY);
+  return curY;
+}
+
+async function buildShareImage(){
+  await document.fonts.ready;
+  const canvas = document.getElementById('share-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  // background
+  ctx.fillStyle = '#F6F1E4';
+  ctx.fillRect(0, 0, W, H);
+
+  // card border
+  ctx.strokeStyle = 'rgba(43,36,24,0.14)';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(40, 40, W-80, H-80);
+
+  ctx.textAlign = 'center';
+
+  // brand line
+  ctx.fillStyle = '#5B5240';
+  ctx.font = '600 26px Karla, sans-serif';
+  ctx.fillText('THE CHATTERING MAGPIE · FLIGHT OF THE MAGPIE', W/2, 130);
+
+  // emoji
+  ctx.font = '160px sans-serif';
+  ctx.fillText(currentTier.emoji, W/2, 340);
+
+  // "Your result" eyebrow
+  ctx.fillStyle = '#5B5240';
+  ctx.font = '400 24px Karla, sans-serif';
+  ctx.fillText('YOUR RESULT', W/2, 400);
+
+  // tier title
+  ctx.fillStyle = '#213730';
+  ctx.font = 'italic 700 84px Fraunces, serif';
+  ctx.fillText(currentTier.title, W/2, 500);
+
+  // blurb
+  ctx.fillStyle = '#2B2418';
+  ctx.font = '400 30px Karla, sans-serif';
+  let y = wrapCanvasText(ctx, currentTier.blurb, W/2, 580, W-220, 42);
+
+  // flock fact box
+  const factTop = y + 70;
+  const factHeight = 220;
+  ctx.strokeStyle = '#A7BE95';
+  ctx.setLineDash([8,8]);
+  ctx.lineWidth = 3;
+  ctx.strokeRect(100, factTop, W-200, factHeight);
+  ctx.setLineDash([]);
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#213730';
+  ctx.font = '700 28px Karla, sans-serif';
+  ctx.fillText('🪶 Flock Fact', 130, factTop + 50);
+
+  ctx.fillStyle = '#5B5240';
+  ctx.font = '400 26px Karla, sans-serif';
+  wrapCanvasText(ctx, currentTier.currentFact || '', 130, factTop + 95, W-260, 36);
+
+  // footer
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#2F4A3D';
+  ctx.font = '700 28px Karla, sans-serif';
+  ctx.fillText('#RoostRuckus  #TRCCFlock', W/2, H-70);
+
+  return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+}
+
+document.getElementById('share-image').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  const original = btn.textContent;
+  btn.textContent = 'Building image…';
+  try {
+    const blob = await buildShareImage();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `roost-ruckus-${currentTier.title.toLowerCase()}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    btn.textContent = '✓ Downloaded!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1800);
+  } catch(err){
+    btn.textContent = original;
+    alert('Could not build the image in this browser — try Copy caption instead.');
+  }
+});
+
+document.getElementById('share-copy').addEventListener('click', (e) => {
+  const full = `${shareText} ${SITE_URL} #${HASHTAGS.split(',').join(' #')}`;
+  const btn = e.currentTarget;
+  const finish = () => {
+    const original = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1800);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(full).then(finish).catch(() => fallbackCopy(full, finish));
+  } else {
+    fallbackCopy(full, finish);
+  }
+});
+
+function fallbackCopy(text, cb){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  cb();
+}
+
+// init
+document.getElementById('config-note').textContent = "";
+renderQuestion();
+</script>
+</body>
+</html>
