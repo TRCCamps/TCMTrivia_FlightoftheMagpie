@@ -301,24 +301,32 @@
     align-items:center;
     gap:7px;
     font-family:'Karla', sans-serif;
-    font-weight:600;
-    font-size: 13.5px;
-    padding: 10px 16px;
+    font-weight:700;
+    font-size: 15px;
+    padding: 13px 22px;
     border-radius: 999px;
-    border: 1.5px solid var(--line);
-    background: var(--paper);
-    color: var(--ink);
+    border: none;
+    background: var(--pine);
+    color: var(--paper);
     cursor:pointer;
-    transition: border-color 0.15s ease, transform 0.1s ease;
+    transition: opacity 0.15s ease, transform 0.1s ease;
   }
-  .share-btn:hover{ border-color: var(--pine); }
+  .share-btn:hover{ opacity: 0.92; }
   .share-btn:active{ transform: scale(0.97); }
   .share-btn.copied{
-    background: var(--sage-light);
-    border-color: var(--pine);
+    background: var(--gold);
   }
-  .ig-note{
-    font-size: 12px;
+  .share-steps{
+    text-align:left;
+    max-width: 360px;
+    margin: 0 auto 14px;
+    padding-left: 22px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .share-note{
+    font-size: 12.5px;
     color: var(--ink-soft);
     margin-bottom: 20px;
   }
@@ -407,11 +415,15 @@
 
       <div class="share-label">Share your result</div>
       <div class="share-row">
-        <button class="share-btn" id="share-fb">📘 Facebook</button>
-        <button class="share-btn" id="share-image">🖼️ Download image</button>
-        <button class="share-btn" id="share-copy">📋 Copy caption</button>
+        <button class="share-btn share-btn-primary" id="share-image">📥 Save My Result Card</button>
       </div>
-      <div class="ig-note">Instagram doesn't support one-click sharing from a webpage. Tap Download image to save your result card, then post it to your Story or feed with the copied caption.</div>
+      <ol class="share-steps">
+        <li>Tap the button above to save your result card as a photo.</li>
+        <li>Open Instagram, Facebook, or Messages.</li>
+        <li>Start a new post or story and choose the photo you just saved.</li>
+      </ol>
+      <div class="share-note">That's it! A short intro, our web address, and all your hashtags are already built right into the image — so anyone who sees it, subscriber or not, knows exactly what it is and where to find it.</div>
+      <div class="share-note" style="margin-top:-14px;">💡 Posting to an Instagram Story? You can add a real tappable "Link Sticker" with our web address so friends can visit straight from your Story.</div>
 
       <button class="retake" id="retake-btn">Take it again</button>
     </div>
@@ -467,7 +479,7 @@ const QUESTIONS = [
     correct: 2
   },
   {
-    q: "Which music program already had a bird-themed name BEFORE becoming a sponsored program of TRCC? (Fun Fact: it was this program's name that inspired us to build upon 'Birds' as a way of linking our unique and growing music community together.)",
+    q: "Which music program already had a bird-themed name BEFORE becoming an affiliated program of TRCC? (Fun Fact: it was this program's name that inspired us to build upon 'Birds' as a way of linking our unique and growing music community together.)",
     options: ["Lark and Robin Rollick","Chickadee Fiddle Workshop","Sandpiper Music Fest","Early Bird Music Workshop","Sparrow Winter Workshop"],
     correct: 4
   },
@@ -477,7 +489,7 @@ const QUESTIONS = [
     correct: 1
   },
   {
-    q: "This was also the pilot year for TRCC's Early Bird Classical & World Music Workshop. What discount do Early Bird participants receive on their Bluebird camp registrations, if they choose to participate in both programs that same year?",
+    q: "2026 was also the pilot year for TRCC's Early Bird Classical & World Music Workshop. What discount do Early Bird participants receive on their Bluebird camp registrations, if they choose to participate in both programs within the same year?",
     options: ["$25 discount","$50 discount","$75 discount","$100 discount","No discount"],
     correct: 1
   },
@@ -545,14 +557,15 @@ const FLOCK_FACTS = [
   "It was Sparrow Winter Workshop's already-bird-y name that first inspired TRCC to build a whole flock of bird-themed camps.",
   "Bluebird Family Fiddle Camp started life in 2002 as the Walker Family Band Camp — it's been growing wings ever since.",
   "Ruth Pershing has been calling Bluebird's all-camp dance since 2014.",
-  "Julia Delaney won the 2026 TRCC Community Playlist poll by DOUBLE the votes of the runner-up tune.",
-  "Early Bird Music Workshop campers get a $50 discount on Bluebird — the earliest of early-bird deals.",
-  "Chickadee Fiddle Workshop (launched in March 2026 by Jennie Brunner) was TRCC's newest program before Lark and Robin Rollick came along.",
-  "BFF Camp's \"Roots & Shoots\" class borrows its name from Jane Goodall's global youth environmental movement. This class was introduced into the fiddle curriculum by Jennie Brunner and her daughter Claire, and empowers youth (and those of all ages) by blending the arts and conservation values, greatly expanding upon the Bluebird mission.",
-  "Bluebird's silent nature walks pair beautifully with a week of music — turns out listening to birdsong is its own kind of ear training.",
+  "Julia Delaney won the 2026 TRCC Community Playlist poll by DOUBLE the votes of the runner-up tune! Thanks for casting your votes! More fun polls, quizzes, & contests coming to the TCM newsletter in future issues, so stay tuned!",
+  "Early Bird Music Workshop campers get a $50 discount on Bluebird Camp — the earliest of early-bird deals!",
+  "TRCC now has a music family tree which includes 4 sponsored programs (Bluebird, Early Bird, Chickadee, and Lark & Robin), and 2 affiliated programs (Sparrow and Sandpiper)! We are filled with so much gratitude and joy as our TRCC 'roost' continues to grow — together, and across our collective communities. Thank you!",
+  "BFF Camp's \"Roots & Shoots\" class borrows its name from Jane Goodall's global youth environmental movement. This class was introduced into the fiddle curriculum by Jennie Brunner and her daughter Claire, and empowers youth (and those of all ages) by blending the arts and conservation values, greatly contributing to many of the core tenets of Bluebird's mission: inclusion, gratitude, stewardship, and service and healing through the arts.",
+  "Bluebird's silent nature walks pair beautifully with a week of music — turns out listening to birdsong is its own kind of ear training!",
   "Located in the scenic Blue Ridge Mountains, the Blowing Rock Conference Center (BRCC) is steeped in natural beauty and regional tradition. BRCC has hosted TRCC's Bluebird Family Fiddle Camp for almost 25 years...since our very first camp!",
-  "In addition to multi-instrumental, multi-generational music classes, TRCC's Bluebird camp offers lots of activities and programs for family members who don't play an instrument! Singing, dances, daily nature walks/hikes, yoga, campfires, arts classes like watercolor, poetry, and origami, history of traditional music and dance, live music, and more! And the town of Blowing Rock is a resort area with lots to do and plenty of excursions awaiting just minutes off campus! It's a week full of music, learning, community, and fun for the whole family!",
-  "Have you heard about the Bluebird Family Fiddle Camp's 'Service Day'? Every year, the Bluebird Camp partners with the BRCC staff to organize a service project that gives back to our host facility, its grounds, staff, and the serene nature that surrounds it. Faculty, staff, and campers take a break from morning classes, and volunteers work together on projects like creating gardens, clearing walking trails, or assisting with eco-friendly management solutions for the grounds, such as building bat houses to help manage mosquitoes or implementing water collection and recycling systems. Building community through gratitude and stewardship is a large part of the BFF Camp's mission."
+  "In addition to multi-instrumental, multi-generational music classes, TRCC's Bluebird camp offers lots of activities and programs for family members who don't play an instrument — singing, dancing, daily nature walks, yoga, campfires, arts classes like watercolor, poetry, and origami, history of traditional music and dance, nature explorers, theater, live music, and more!",
+  "The town of Blowing Rock is a resort area with lots to do and plenty of excursions awaiting just minutes off campus! It's a week full of music, learning, community, and fun for the whole family!",
+  "Have you heard about the Bluebird Family Fiddle Camp's 'Service Day'? Every year, the Bluebird Camp partners with the BRCC staff to organize a service project that gives back to our host facility, its grounds, staff, and the serene nature that surrounds it. Faculty, staff, and campers take a break from morning classes, and volunteers work together on projects like creating gardens, clearing walking trails, or assisting with eco-friendly management solutions for the grounds, such as building bat houses to help manage mosquitoes or implementing water collection & recycling systems. Building community through gratitude and stewardship is a large part of the BFF Camp's mission."
 ];
 
 // ---------------------------------------------------------------
@@ -660,35 +673,81 @@ document.getElementById('retake-btn').addEventListener('click', () => {
   renderQuestion();
 });
 
-document.getElementById('share-fb').addEventListener('click', () => {
-  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITE_URL)}&quote=${encodeURIComponent(shareText)}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
-});
-
-function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight){
+function getWrappedLines(ctx, text, maxWidth){
   const words = text.split(' ');
+  const lines = [];
   let line = '';
-  let curY = y;
   for (let i = 0; i < words.length; i++){
     const testLine = line + words[i] + ' ';
     if (ctx.measureText(testLine).width > maxWidth && i > 0){
-      ctx.fillText(line.trim(), x, curY);
+      lines.push(line.trim());
       line = words[i] + ' ';
-      curY += lineHeight;
     } else {
       line = testLine;
     }
   }
-  ctx.fillText(line.trim(), x, curY);
-  return curY;
+  lines.push(line.trim());
+  return lines;
+}
+
+function drawLines(ctx, lines, x, startY, lineHeight){
+  lines.forEach((l, i) => ctx.fillText(l, x, startY + i*lineHeight));
+  return startY + (lines.length - 1) * lineHeight;
 }
 
 async function buildShareImage(){
   await document.fonts.ready;
   const canvas = document.getElementById('share-canvas');
   const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
+  const W = 1080;
 
+  // Fixed layout constants (above the variable-length content)
+  const TOP_BLOCK_END = 580;   // y position where the blurb begins
+  const BLURB_LINE_H = 42;
+  const FACT_GAP_ABOVE = 70;   // space between blurb and fact box
+  const FACT_LABEL_H = 50;     // space for the "Flock Fact" label inside the box
+  const FACT_LINE_H = 36;
+  const FACT_BOX_PAD_BOTTOM = 40;
+  const FOOTER_GAP_ABOVE = 55;  // space between fact box and the teaser block below it
+  const TEASER_LINE_H = 38;
+  const TEASER_GAP_BELOW = 26;
+  const URL_LINE_H = 34;
+  const URL_GAP_BELOW = 22;
+  const TAG_LINE_H = 34;
+  const BOTTOM_MARGIN = 55;
+  const MIN_HEIGHT = 1080;
+
+  const TEASER_TEXT = "Want to learn more about TRCC and its affiliated music camps? Take our fun trivia quiz here!";
+
+  // --- PASS 1: measure everything before drawing anything ---
+  ctx.font = '400 30px Karla, sans-serif';
+  const blurbLines = getWrappedLines(ctx, currentTier.blurb, W-220);
+
+  ctx.font = '400 26px Karla, sans-serif';
+  const factLines = getWrappedLines(ctx, currentTier.currentFact || '', W-260);
+
+  ctx.font = '600 28px Karla, sans-serif';
+  const teaserLines = getWrappedLines(ctx, TEASER_TEXT, W-260);
+
+  const blurbBlockHeight = blurbLines.length * BLURB_LINE_H;
+  const factBoxHeight = FACT_LABEL_H + (factLines.length * FACT_LINE_H) + FACT_BOX_PAD_BOTTOM;
+  const factTop = TOP_BLOCK_END + blurbBlockHeight + FACT_GAP_ABOVE;
+  const factBottom = factTop + factBoxHeight;
+
+  const footerTop = factBottom + FOOTER_GAP_ABOVE;
+  const teaserBlockHeight = teaserLines.length * TEASER_LINE_H;
+  const footerContentHeight = teaserBlockHeight + TEASER_GAP_BELOW + URL_LINE_H + URL_GAP_BELOW + (TAG_LINE_H * 2);
+  const footerBottom = footerTop + footerContentHeight;
+
+  const totalHeight = Math.max(MIN_HEIGHT, footerBottom + BOTTOM_MARGIN);
+
+  // Resizing the canvas clears it and resets all context state, so this must
+  // happen before any drawing.
+  canvas.width = W;
+  canvas.height = totalHeight;
+  const H = totalHeight;
+
+  // --- PASS 2: draw, now that the canvas is the right size ---
   // background
   ctx.fillStyle = '#F6F1E4';
   ctx.fillRect(0, 0, W, H);
@@ -722,15 +781,13 @@ async function buildShareImage(){
   // blurb
   ctx.fillStyle = '#2B2418';
   ctx.font = '400 30px Karla, sans-serif';
-  let y = wrapCanvasText(ctx, currentTier.blurb, W/2, 580, W-220, 42);
+  drawLines(ctx, blurbLines, W/2, TOP_BLOCK_END, BLURB_LINE_H);
 
-  // flock fact box
-  const factTop = y + 70;
-  const factHeight = 220;
+  // flock fact box — sized to exactly fit the measured text
   ctx.strokeStyle = '#A7BE95';
   ctx.setLineDash([8,8]);
   ctx.lineWidth = 3;
-  ctx.strokeRect(100, factTop, W-200, factHeight);
+  ctx.strokeRect(100, factTop, W-200, factBoxHeight);
   ctx.setLineDash([]);
 
   ctx.textAlign = 'left';
@@ -740,13 +797,26 @@ async function buildShareImage(){
 
   ctx.fillStyle = '#5B5240';
   ctx.font = '400 26px Karla, sans-serif';
-  wrapCanvasText(ctx, currentTier.currentFact || '', 130, factTop + 95, W-260, 36);
+  drawLines(ctx, factLines, 130, factTop + FACT_LABEL_H + 45, FACT_LINE_H);
 
-  // footer
+  // footer block — teaser line, then URL, then hashtags — all built top-down
+  // so it always fits regardless of wording length
   ctx.textAlign = 'center';
+
+  ctx.fillStyle = '#213730';
+  ctx.font = '600 28px Karla, sans-serif';
+  const teaserEndY = drawLines(ctx, teaserLines, W/2, footerTop + TEASER_LINE_H - 10, TEASER_LINE_H);
+
+  const urlY = teaserEndY + TEASER_GAP_BELOW + URL_LINE_H - 10;
+  ctx.fillStyle = '#5B5240';
+  ctx.font = '600 24px Karla, sans-serif';
+  ctx.fillText(SITE_URL.replace(/^https?:\/\//,''), W/2, urlY);
+
+  const tag1Y = urlY + URL_GAP_BELOW + TAG_LINE_H - 10;
   ctx.fillStyle = '#2F4A3D';
-  ctx.font = '700 28px Karla, sans-serif';
-  ctx.fillText('#RoostRuckus  #TRCCFlock', W/2, H-70);
+  ctx.font = '700 26px Karla, sans-serif';
+  ctx.fillText('#TCMTrivia   #FlightoftheMagpie', W/2, tag1Y);
+  ctx.fillText('#RoostRuckus   #TRCCFlock   #TheChatteringMagpie', W/2, tag1Y + TAG_LINE_H);
 
   return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 }
@@ -754,53 +824,25 @@ async function buildShareImage(){
 document.getElementById('share-image').addEventListener('click', async (e) => {
   const btn = e.currentTarget;
   const original = btn.textContent;
-  btn.textContent = 'Building image…';
+  btn.textContent = 'Building your card…';
   try {
     const blob = await buildShareImage();
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `roost-ruckus-${currentTier.title.toLowerCase()}.png`;
+    a.download = `flight-of-the-magpie-${currentTier.title.toLowerCase().replace(/\s+/g,'-')}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    btn.textContent = '✓ Downloaded!';
+    btn.textContent = '✓ Saved! Now open Instagram or Facebook';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1800);
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 3000);
   } catch(err){
     btn.textContent = original;
-    alert('Could not build the image in this browser — try Copy caption instead.');
+    alert('Something went wrong saving the image. Try again, or take a screenshot of this page instead.');
   }
 });
-
-document.getElementById('share-copy').addEventListener('click', (e) => {
-  const full = `${shareText} ${SITE_URL} #${HASHTAGS.split(',').join(' #')}`;
-  const btn = e.currentTarget;
-  const finish = () => {
-    const original = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1800);
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(full).then(finish).catch(() => fallbackCopy(full, finish));
-  } else {
-    fallbackCopy(full, finish);
-  }
-});
-
-function fallbackCopy(text, cb){
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
-  document.body.appendChild(ta);
-  ta.select();
-  try { document.execCommand('copy'); } catch(e) {}
-  document.body.removeChild(ta);
-  cb();
-}
 
 // init
 document.getElementById('config-note').textContent = "";
